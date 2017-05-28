@@ -5,7 +5,12 @@ class RandomPlayer:
 		pass
 
 	def play(self, board):
-		return (random.randrange(board.size), random.randrange(board.size))
+		avail = [(x, y, board.board[x][y])
+		         for y in range(board.size)
+		         for x in range(board.size)
+		         if board.board[x][y] == board.EMPTY]
+		(x, y, t) = random.choice(avail)
+		return (x, y)
 
 def create_player(board):
 	return RandomPlayer(board)
