@@ -35,24 +35,31 @@ class Board:
 		return (fmt % tuple(map(lambda xyp: pmap(*xyp), self.as_tuples())))
 
 	def winner(self):
-		for p in self.players:
-			# Horizontal
-			for y in range(self.size):
-				if all(map(lambda m: m == p, [self.get(x, y) for x in range(self.size)])):
-					return p
+		# Horizontal -
+		for y in range(self.size):
+			f = self.get(0, y)
+			if f in self.players:
+				if all(map(lambda x: self.get(x, y) == f, range(1, self.size))):
+					return f
 
-			# Vertical
-			for x in range(self.size):
-				if all(map(lambda m: m == p, [self.get(x, y) for y in range(self.size)])):
-					return p
+		# Vertical |
+		for x in range(self.size):
+			f = self.get(x, 0)
+			if f in self.players:
+				if all(map(lambda y: self.get(x, y) == f, range(1, self.size))):
+					return f
 
-			# Diagonal \
-			if all(map(lambda m: m == p, [self.get(d, d) for d in range(self.size)])):
-				return p
+		# Diagonal \
+		f = self.get(0, 0)
+		if f in self.players:
+			if all(map(lambda d: self.get(d, d) == f, range(1, self.size))):
+				return f
 
-			# Diagonal /
-			if all(map(lambda m: m == p, [self.get((self.size-1)-d, d) for d in range(self.size)])):
-				return p
+		# Diagonal /
+		f = self.get((self.size-1), 0)
+		if f in self.players:
+			if all(map(lambda d: self.get((self.size-1)-d, d) == f, range(1, self.size))):
+				return f
 
 		if len(list(filter(lambda m: m == self.EMPTY, self.as_list()))) == 0:
 			return self.DRAW
