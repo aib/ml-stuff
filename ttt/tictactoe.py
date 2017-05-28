@@ -49,5 +49,8 @@ class Board:
 		self.turn = (self.turn + 1) % len(self.players)
 		return True
 
+	def to_play(self):
+		return self.players[self.turn]
+
 	def _board_as_list(self):
 		return [self.board[x][y] for y in range(self.size) for x in range(self.size)]
