@@ -54,3 +54,6 @@ class Board:
 
 	def as_list(self):
 		return [self.board[x][y] for y in range(self.size) for x in range(self.size)]
+
+	def as_tuples(self):
+		return [(x, y, self.board[x][y]) for y in range(self.size) for x in range(self.size)]
