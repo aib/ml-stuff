@@ -1,3 +1,5 @@
+import copy
+
 class Board:
 	DRAW = "(draw)"
 	EMPTY = ' '
@@ -13,6 +15,12 @@ class Board:
 
 	def set(self, x, y, p):
 		self.board[x + y*self.size] = p
+
+	def save(self):
+		return (copy.copy(self.board), self.turn)
+
+	def load(self, data):
+		(self.board, self.turn) = data
 
 	def draw(self, pmap=None):
 		fmt = (" . | . | . \n"
