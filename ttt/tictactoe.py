@@ -14,7 +14,7 @@ class Board:
 		       " . | . | . \n"
 		       "---+---+---\n"
 		       " . | . | . \n".replace('.', '%s'))
-		return (fmt % tuple(self._board_as_list()))
+		return (fmt % tuple(self.as_list()))
 
 	def winner(self):
 		for p in self.players:
@@ -36,7 +36,7 @@ class Board:
 			if all(map(lambda m: m == p, [self.board[(self.size-1)-d][d] for d in range(self.size)])):
 				return p
 
-		if len(list(filter(lambda m: m == self.EMPTY, self._board_as_list()))) == 0:
+		if len(list(filter(lambda m: m == self.EMPTY, self.as_list()))) == 0:
 			return self.DRAW
 
 		return None
@@ -52,5 +52,5 @@ class Board:
 	def to_play(self):
 		return self.players[self.turn]
 
-	def _board_as_list(self):
+	def as_list(self):
 		return [self.board[x][y] for y in range(self.size) for x in range(self.size)]
