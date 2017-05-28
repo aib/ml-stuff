@@ -8,13 +8,17 @@ class Board:
 		self.board = [[self.EMPTY for y in range(size)] for x in range(size)]
 		self.turn = 0
 
-	def draw(self):
+	def draw(self, pmap=None):
 		fmt = (" . | . | . \n"
 		       "---+---+---\n"
 		       " . | . | . \n"
 		       "---+---+---\n"
 		       " . | . | . \n".replace('.', '%s'))
-		return (fmt % tuple(self.as_list()))
+
+		if pmap is None:
+			pmap = lambda x, y, p: p
+
+		return (fmt % tuple(map(lambda xyp: pmap(*xyp), self.as_tuples())))
 
 	def winner(self):
 		for p in self.players:
