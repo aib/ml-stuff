@@ -1,5 +1,3 @@
-import random
-
 class HumanPlayer:
 	def __init__(self, board):
 		pass
