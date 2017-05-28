@@ -9,38 +9,36 @@ import re
 
 def run_game(p1m, p2m, verbose=False):
 	board = tictactoe.Board()
-	p1 = p1m.create_player(board)
-	p2 = p2m.create_player(board)
+	players = { board.players[0]: p1m.create_player(board), board.players[1]: p2m.create_player(board) }
 
-	to_play = p1
+	if verbose:
+		print("* New game between:")
+		for p in board.players:
+			print("%s: %s" % (p, players[p]))
+		print()
 
 	winner = None
 	while winner is None:
 		if verbose:
 			print(board.draw(), end="")
-			print("P1" if to_play == p1 else "P2", to_play, "to move")
+			print("%s (%s) to move" % (board.to_play(), players[board.to_play()]))
 			print()
 
 		# do-while or even a goto would help here...
 		while True:
-			move = to_play.play(board)
+			move = players[board.to_play()].play(board)
 			moved = board.play(move[0], move[1])
 			if moved: break
-
-		if to_play == p1:
-			to_play = p2
-		else:
-			to_play = p1
 
 		winner = board.winner()
 
 	if verbose:
 		print(board.draw(), end="")
-		print("Winner is", winner)
+		print("* Winner is", winner)
 		print()
 
-	p1m.destroy_player(p1)
-	p2m.destroy_player(p2)
+	p1m.destroy_player(players[board.players[0]])
+	p2m.destroy_player(players[board.players[1]])
 
 	return winner
 
