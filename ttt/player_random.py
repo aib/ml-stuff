@@ -5,11 +5,8 @@ class RandomPlayer:
 		pass
 
 	def play(self, board):
-		avail = [(x, y, board.board[x][y])
-		         for y in range(board.size)
-		         for x in range(board.size)
-		         if board.board[x][y] == board.EMPTY]
-		(x, y, t) = random.choice(avail)
+		avail = filter(lambda xyp: xyp[2] == board.EMPTY, board.as_tuples())
+		(x, y, t) = random.choice(list(avail))
 		return (x, y)
 
 def create_player(board):
