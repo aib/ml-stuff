@@ -51,13 +51,13 @@ def load_player_modules():
 		if not os.path.isfile(fn):
 			continue
 
-		m = re.match(r'^(player_[a-zA-Z_]+).py$', fn)
+		m = re.match(r'^player_([a-zA-Z_]+).py$', fn)
 		if m is None:
 			continue
 
-		module_name = m.group(1)
-		module = importlib.import_module(module_name)
-		player_modules[module_name] = module
+		name = m.group(1)
+		module = importlib.import_module('player_' + name)
+		player_modules[name] = module
 
 	return player_modules
 
