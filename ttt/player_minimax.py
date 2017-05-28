@@ -19,9 +19,10 @@ class MinimaxPlayer:
 
 		scores = []
 		for move in avail:
-			bcopy = copy.deepcopy(board)
-			bcopy.play(move[0], move[1])
-			score = self.eval_board(bcopy)
+			board_save = board.save()
+			board.play(move[0], move[1])
+			score = self.eval_board(board)
+			board.load(board_save)
 			scores.append((move, -score[1]))
 
 		return max(scores, key=lambda s: s[1])
