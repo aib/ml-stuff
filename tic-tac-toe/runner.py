@@ -40,6 +40,10 @@ def run_game(p1m, p2m, verbose=False):
 		print("* Winner is", winner)
 		print()
 
+	for player in players.values():
+		if callable(getattr(player, 'result', None)):
+			player.result(board, winner)
+
 	p1m.destroy_player(players[board.players[0]])
 	p2m.destroy_player(players[board.players[1]])
 
