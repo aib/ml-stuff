@@ -9,7 +9,7 @@ class RandomPlayer:
 		(x, y, t) = random.choice(list(avail))
 		return (x, y)
 
-def create_player(board):
+def create_player(board, token):
 	return RandomPlayer(board)
 
 def destroy_player(player):

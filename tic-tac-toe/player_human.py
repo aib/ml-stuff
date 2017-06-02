@@ -27,7 +27,7 @@ class HumanPlayer:
 		else:
 			return None
 
-def create_player(board):
+def create_player(board, token):
 	return HumanPlayer(board)
 
 def destroy_player(player):

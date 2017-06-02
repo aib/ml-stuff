@@ -27,7 +27,7 @@ class MinimaxPlayer:
 
 		return max(scores, key=lambda s: s[1])
 
-def create_player(board):
+def create_player(board, token):
 	return MinimaxPlayer(board)
 
 def destroy_player(player):

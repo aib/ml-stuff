@@ -9,7 +9,10 @@ import re
 
 def run_game(p1m, p2m, verbose=False):
 	board = tictactoe.Board()
-	players = { board.players[0]: p1m.create_player(board), board.players[1]: p2m.create_player(board) }
+	players = {
+		board.players[0]: p1m.create_player(board, board.players[0]),
+		board.players[1]: p2m.create_player(board, board.players[0])
+	}
 
 	if verbose:
 		print("* New game between:")
