@@ -1,9 +1,6 @@
 import copy
 
 class MinimaxPlayer:
-	def __init__(self, board):
-		pass
-
 	def play(self, board):
 		move = self.eval_board(board)
 		return move[0]
@@ -28,7 +25,7 @@ class MinimaxPlayer:
 		return max(scores, key=lambda s: s[1])
 
 def create_player(board, token):
-	return MinimaxPlayer(board)
+	return MinimaxPlayer()
 
 def destroy_player(player):
 	pass

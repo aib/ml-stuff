@@ -1,7 +1,4 @@
 class HumanPlayer:
-	def __init__(self, board):
-		pass
-
 	def play(self, board):
 		print(board.draw(lambda x, y, p: p if p != board.EMPTY else self.xytonum(board.size, x, y)), end="")
 		print("Playing as %s, please input the square" % board.to_play())
@@ -28,7 +25,7 @@ class HumanPlayer:
 			return None
 
 def create_player(board, token):
-	return HumanPlayer(board)
+	return HumanPlayer()
 
 def destroy_player(player):
 	pass
