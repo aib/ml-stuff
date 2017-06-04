@@ -15,10 +15,11 @@ def main():
 	print("Loading training set")
 	training_images = mnist.load_images(os.path.join(MNIST_DIR, 'train-images-idx3-ubyte.gz'))
 	training_labels = mnist.load_labels(os.path.join(MNIST_DIR, 'train-labels-idx1-ubyte.gz'))
-	print("%d images and %d labels read" % (len(training_images), len(training_labels)))
 
 	images = training_images.reshape(training_images.shape[0], training_images.shape[1] * training_images.shape[2]) / 255
 	labels = list(map(lambda x: list(map(lambda l: 1 if x == l else 0, range(10))), training_labels))
+
+	print("%d images and %d labels read" % (len(training_images), len(training_labels)))
 
 	print("Creating network")
 	net = nn.MLP((784, 10, 10))
