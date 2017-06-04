@@ -1,8 +1,21 @@
 import itertools
+import pickle
 
 import numpy as np
 
 class FeedForward:
+	@classmethod
+	def from_file(cls, f):
+		(shape, weights) = pickle.load(f)
+		return cls.construct(shape, weights)
+
+	@classmethod
+	def construct(cls, shape, weights):
+		obj = cls.__new__(cls)
+		obj.shape = shape
+		obj.weights = weights
+		return obj
+
 	def __init__(self, shape):
 		self.shape = shape
 		self.weights = []
@@ -13,6 +26,9 @@ class FeedForward:
 
 	def randomize(self):
 		self.weights = list(map(lambda l: np.random.randn(*l.shape), self.weights))
+
+	def save(self, f):
+		pickle.dump((self.shape, self.weights), f)
 
 	def execute(self, input_, all_layers=False):
 		input_ = np.array(input_)
