@@ -9,9 +9,11 @@ import mnist
 import nn
 
 MNIST_DIR = '.'
+NN_FILE = './network.pickle'
 
 def main():
 	np.set_printoptions(precision=3, suppress=True, linewidth=1000)
+
 	print("Loading training set")
 	training_images = mnist.load_images(os.path.join(MNIST_DIR, 'train-images-idx3-ubyte.gz'))
 	training_labels = mnist.load_labels(os.path.join(MNIST_DIR, 'train-labels-idx1-ubyte.gz'))
@@ -21,15 +23,24 @@ def main():
 
 	print("%d images and %d labels read" % (len(training_images), len(training_labels)))
 
-	print("Creating network")
-	net = nn.MLP((784, 10, 10))
-	net.randomize()
+	try:
+		with open(NN_FILE, 'rb') as f:
+			print("Loading network")
+			net = nn.MLP.from_file(f)
+	except FileNotFoundError:
+		print("Creating randomized network")
+		net = nn.MLP((784, 10, 10))
+		net.randomize()
 
 	print("Training")
 	for n in range(1):
 		print("Pass", n+1)
 		for i in range(len(images)):
 			net.train([images[i]], [labels[i]], 0.2)
+
+	print("Training complete. Saving network")
+	with open(NN_FILE, 'wb') as f:
+		net.save(f)
 
 	print("Loading test set")
 	test_images = mnist.load_images(os.path.join(MNIST_DIR, 't10k-images-idx3-ubyte.gz'))
