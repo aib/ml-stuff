@@ -12,8 +12,6 @@ MNIST_DIR = '.'
 NN_FILE = './network.pickle'
 
 def main():
-	np.set_printoptions(precision=3, suppress=True, linewidth=1000)
-
 	print("Loading training set")
 	training_images = mnist.load_images(os.path.join(MNIST_DIR, 'train-images-idx3-ubyte.gz'))
 	training_labels = mnist.load_labels(os.path.join(MNIST_DIR, 'train-labels-idx1-ubyte.gz'))
