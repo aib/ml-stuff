@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+# Add parent directory to module search path in an ugly hack
+import sys, os.path
+sys.path.insert(1, os.path.join(sys.path[0], '..'))
+
 import tictactoe
 
 import importlib
