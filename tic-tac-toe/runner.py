@@ -11,6 +11,8 @@ import os
 import random
 import re
 
+INVALID_MOVE_CAUSES_LOSS = True
+
 def run_game(p1m, p2m, verbose=False):
 	board = tictactoe.Board()
 	players = {
@@ -35,7 +37,12 @@ def run_game(p1m, p2m, verbose=False):
 		while True:
 			move = players[board.to_play()].play(board)
 			moved = board.play(move[0], move[1])
-			if moved: break
+			if moved:
+				break
+			elif INVALID_MOVE_CAUSES_LOSS:
+				print(board.to_play(), "has been eliminated by an invalid move")
+				board.eliminate(board.to_play())
+				break
 
 		winner = board.winner()
 
@@ -48,8 +55,8 @@ def run_game(p1m, p2m, verbose=False):
 		if callable(getattr(player, 'result', None)):
 			player.result(board, winner)
 
-	p1m.destroy_player(players[board.players[0]])
-	p2m.destroy_player(players[board.players[1]])
+	p1m.destroy_player(players[board.original_players[0]])
+	p2m.destroy_player(players[board.original_players[1]])
 
 	return winner
 
