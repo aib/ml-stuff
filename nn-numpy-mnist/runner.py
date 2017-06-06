@@ -12,8 +12,8 @@ import numpy as np
 from common import mnist
 from common import nn
 
-MNIST_DIR = '.'
-NN_FILE = './network.pickle'
+MNIST_DIR = '../data'
+NN_FILE = '../data/numpy_mnist_network.pickle'
 
 def main():
 	net = load_or_create_network(NN_FILE)
