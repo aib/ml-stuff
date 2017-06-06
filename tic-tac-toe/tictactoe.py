@@ -6,9 +6,11 @@ class Board:
 
 	def __init__(self, size=3, players=['X', 'O']):
 		self.size = size
-		self.players = players
+		self.players = copy.copy(players)
+		self.original_players = copy.copy(players)
 		self.board = [self.EMPTY] * (size * size)
 		self.turn = 0
+		self.players_eliminated = True
 
 	def get(self, x, y):
 		return self.board[x + y*self.size]
@@ -35,6 +37,12 @@ class Board:
 		return (fmt % tuple(map(lambda xyp: pmap(*xyp), self.as_tuples())))
 
 	def winner(self):
+		if self.players_eliminated:
+			if len(self.players) == 0:
+				return self.DRAW
+			elif len(self.players) == 1:
+				return self.players[0]
+
 		# Horizontal -
 		for y in range(self.size):
 			f = self.get(0, y)
@@ -76,6 +84,10 @@ class Board:
 
 	def to_play(self):
 		return self.players[self.turn]
+
+	def eliminate(self, player):
+		self.players.remove(player)
+		self.players_eliminated = True
 
 	def as_list(self):
 		return [self.get(x, y) for y in range(self.size) for x in range(self.size)]
