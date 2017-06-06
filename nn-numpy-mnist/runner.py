@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
 
+# Add parent directory to module search path in an ugly hack
+import sys, os.path
+sys.path.insert(1, os.path.join(sys.path[0], '..'))
+
 import operator
 import os.path
 
 import numpy as np
 
-import mnist
-import nn
+from common import mnist
+from common import nn
 
 MNIST_DIR = '.'
 NN_FILE = './network.pickle'
