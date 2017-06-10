@@ -12,6 +12,9 @@ class NNumpyPlayer:
 		self.token = my_token
 		self.net = net
 		self.moves = []
+		self.all_moves = {}
+		for p in board.players:
+			self.all_moves[p] = []
 
 	def play(self, board):
 		board_num = self._board_to_input(board)
@@ -22,17 +25,22 @@ class NNumpyPlayer:
 		(x, y) = (chosen % 3, chosen // 3)
 		return (x, y)
 
-	def result(self, board, winner):
-		if winner == self.token:
-			mul = MULTIPLIERS[0]
-		elif winner == board.DRAW:
-			mul = MULTIPLIERS[1]
-		else:
-			mul = MULTIPLIERS[2]
+	def played(self, player, board, move):
+		self.all_moves[player].append((self._board_to_input(board), move))
 
-		for move in self.moves:
-			mulout = list(map(lambda w: mul if w == move[1] else -mul, range(9)))
-			self.net.train([move[0]], [mulout], RATE)
+	def result(self, board, winner):
+		for p in self.all_moves:
+			if winner == p:
+				mul = MULTIPLIERS[0]
+			elif winner == board.DRAW:
+				mul = MULTIPLIERS[1]
+			else:
+				mul = MULTIPLIERS[2]
+
+			for (board_input, move) in self.all_moves[p]:
+				move_num = move[1] * board.size + move[0]
+				outp = list(map(lambda w: mul if w == move_num else -mul, range(9)))
+				self.net.train([board_input], [outp], RATE)
 
 	def _board_to_input(self, board):
 		inp = list(map(lambda xyp: 0 if xyp[2] == board.EMPTY else 1 if xyp[2] == board.to_play() else -1, board.as_tuples()))
