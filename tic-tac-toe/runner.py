@@ -40,7 +40,8 @@ def run_game(p1m, p2m, verbose=False):
 			if moved:
 				break
 			elif INVALID_MOVE_CAUSES_LOSS:
-				print(board.to_play(), "has been eliminated by an invalid move")
+				if verbose:
+					print(board.to_play(), "has been eliminated by an invalid move")
 				board.eliminate(board.to_play())
 				break
 
