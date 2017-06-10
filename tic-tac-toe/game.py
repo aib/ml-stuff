@@ -25,14 +25,21 @@ def run_game(p1m, p2m, verbose=False):
 		# do-while or even a goto would help here...
 		while True:
 			move = players[board.to_play()].play(board)
-			moved = board.play(move[0], move[1])
-			if moved:
+			if board.can_play(move[0], move[1]):
+				for player in players.values():
+					if callable(getattr(player, 'played', None)):
+						player.played(board.to_play(), board, move)
+				board.play(move[0], move[1])
 				break
-			elif INVALID_MOVE_CAUSES_LOSS:
-				if verbose:
-					print(board.to_play(), "has been eliminated by an invalid move")
-				board.eliminate(board.to_play())
-				break
+			else:
+				if INVALID_MOVE_CAUSES_LOSS:
+					for player in players.values():
+						if callable(getattr(player, 'played', None)):
+							player.played(board.to_play(), board, move)
+					if verbose:
+						print(board.to_play(), "has been eliminated by an invalid move")
+					board.eliminate(board.to_play())
+					break
 
 		winner = board.winner()
 
