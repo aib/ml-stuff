@@ -14,7 +14,7 @@ class NNumpyPlayer:
 		self.moves = []
 
 	def play(self, board):
-		board_num = list(map(lambda xyp: 0 if xyp[2] == board.EMPTY else 1 if xyp[2] == board.to_play() else -1, board.as_tuples()))
+		board_num = self._board_to_input(board)
 		outp = self.net.execute([board_num])[0]
 		chosen = max(enumerate(outp), key=lambda ix: ix[1])[0]
 		self.moves.append((board_num, chosen))
@@ -33,6 +33,10 @@ class NNumpyPlayer:
 		for move in self.moves:
 			mulout = list(map(lambda w: mul if w == move[1] else -mul, range(9)))
 			self.net.train([move[0]], [mulout], RATE)
+
+	def _board_to_input(self, board):
+		inp = list(map(lambda xyp: 0 if xyp[2] == board.EMPTY else 1 if xyp[2] == board.to_play() else -1, board.as_tuples()))
+		return inp
 
 def create_player(board, token):
 	try:
