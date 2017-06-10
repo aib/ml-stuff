@@ -74,8 +74,11 @@ class Board:
 
 		return None
 
+	def can_play(self, x, y):
+		return self.get(x, y) == self.EMPTY
+
 	def play(self, x, y):
-		if self.get(x, y) != self.EMPTY:
+		if not self.can_play(x, y):
 			return False
 
 		self.set(x, y, self.players[self.turn])
