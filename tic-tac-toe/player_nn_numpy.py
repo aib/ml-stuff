@@ -38,8 +38,8 @@ class NNumpyPlayer:
 				mul = MULTIPLIERS[2]
 
 			for (board_input, move) in self.all_moves[p]:
-				move_num = move[1] * board.size + move[0]
-				outp = list(map(lambda w: mul if w == move_num else -mul, range(9)))
+				move_pos = move[1] * board.size + move[0]
+				outp = list(map(lambda w: mul if w == move_pos else -mul, range(9)))
 				self.net.train([board_input], [outp], RATE)
 
 	def _board_to_input(self, board):
