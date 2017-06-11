@@ -12,12 +12,15 @@ import player_nn_numpy
 import player_random
 
 def main():
-	for _ in range(100):
-		ws = []
+	for _ in range(200):
+		wins = []
 		for _ in range(1000):
-			w = game.run_game(player_random, player_nn_numpy, verbose=False)
-			ws.append(w)
-		print(collections.Counter(ws))
+			win = game.run_game(player_random, player_nn_numpy, verbose=False)
+			wins.append(win)
+		wins = collections.Counter(wins)
+		for p in ['X', 'O', '(draw)']:
+			print(wins[p], "", end="")
+		print()
 
 if __name__ == '__main__':
 	main()
